@@ -1,54 +1,43 @@
-def get_minutes():
-    """Prompt for a positive whole-number duration."""
-    while True:
-        entry = input("Minutes: ").strip()
+tasks = []
 
-        if entry == "":
+while True:
+    name = input("Enter task name (blank to finish): ")
+
+    if name == "":
+        break
+
+    while True:
+        minutes_text = input("Enter minutes: ")
+
+        if not minutes_text.isdigit():
             print("Please enter a positive whole number.")
             continue
 
-        try:
-            minutes = int(entry)
+        minutes = int(minutes_text)
 
-            if minutes > 0:
-                return minutes
-
+        if minutes <= 0:
             print("Please enter a positive whole number.")
-        except ValueError:
-            print("Please enter a positive whole number.")
+            continue
 
+        break
 
-def main():
-    print("Task Duration Tracker")
+    tasks.append((name, minutes))
 
-    tasks = []
-
-    while True:
-        task_name = input("Task name (blank to finish): ")
-
-        if task_name == "":
-            break
-
-        minutes = get_minutes()
-        tasks.append((task_name, minutes))
-
-    if not tasks:
-        print("No tasks entered.")
-        return
-
+if not tasks:
+    print("No tasks were entered.")
+else:
     total_minutes = sum(minutes for _, minutes in tasks)
+    longest_task = max(tasks, key=lambda task: task[1])
 
-    longest_task, longest_minutes = max(
-        tasks,
-        key=lambda task: task[1]
-    )
+    print("\nTask Summary")
+    print("------------")
 
-    print(f"Total minutes: {total_minutes}")
+    for name, minutes in tasks:
+        print(f"{name}: {minutes} minutes")
+
+    print(f"\nTotal minutes: {total_minutes}")
     print(
-        f"Longest task: {longest_task} "
-        f"({longest_minutes} minutes)"
+        f"Longest task: {longest_task[0]} "
+        f"({longest_task[1]} minutes)"
     )
 
-
-if __name__ == "__main__":
-    main()
