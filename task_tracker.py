@@ -1,8 +1,14 @@
 def get_minutes():
     """Prompt for a positive whole-number duration."""
     while True:
+        entry = input("Minutes: ").strip()
+
+        if entry == "":
+            print("Please enter a positive whole number.")
+            continue
+
         try:
-            minutes = int(input("Minutes: "))
+            minutes = int(entry)
 
             if minutes > 0:
                 return minutes
